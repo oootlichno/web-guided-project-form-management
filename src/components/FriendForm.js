@@ -48,3 +48,69 @@ export default function FriendForm(props) {
     </form>
   )
 }
+
+
+ 
+import React, { startTransition } from 'react'
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+export default function FriendForm(props) {
+  // THESE ARE THE **EXACT PROPS** FriendForm EXPECTS!!!
+  const { values, update, submit } = props
+
+  const onChange = evt => {
+    const { name, value } = evt.target
+    update(name, value) // <-- corrected to call the `update` prop function
+  }
+
+  const onSubmit = evt => {
+    evt.preventDefault();
+    submit() // <-- corrected to call the `submit` prop function
+  }
+
+  return (
+    <form className='form container' onSubmit={onSubmit}>
+      <div className='form-group inputs'>
+        {/* ////////// TEXT INPUTS ////////// */}
+        <label>Username
+          <input
+            value={values.username} // <-- corrected to access specific property
+            name="username"
+            type="text"
+            placeholder='Type username'
+            onChange={onChange}
+          />
+        </label>
+
+        <label>Email
+          <input
+            value={values.email} // <-- corrected to access specific property
+            name="email"
+            type="text"
+            placeholder='Type email'
+            onChange={onChange}
+          />
+        </label>
+
+        {/* ////////// DROPDOWN ////////// */}
+        <label>Role
+          <select
+            value={values.role} // <-- corrected to access specific property
+            name="role" // <-- changed to lowercase to match convention
+            onChange={onChange}
+          >
+            <option value="">Select role</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+            <option value="guest">Guest</option>
+          </select>
+        </label>
+
+        <div className='submit'>
+          <button type="submit">submit</button>
+        </div>
+      </div>
+    </form>
+  )
+}
